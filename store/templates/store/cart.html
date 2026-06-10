@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart</title>
+</head>
+
+<body style="font-family:Arial; background:#f4f4f4; margin:0;">
+
+<div style="background:#333; padding:10px; text-align:center;">
+    <a href="/" style="color:white; margin:10px;">Home</a>
+    <a href="/products/" style="color:white; margin:10px;">Products</a>
+    <a href="/cart/" style="color:white; margin:10px;">Cart</a>
+</div>
+
+<h1 style="text-align:center;">🛒 Your Cart</h1>
+
+{% if cart_items %}
+
+<div style="display:flex; flex-wrap:wrap; justify-content:center;">
+
+{% for item in cart_items %}
+
+<div style="
+border:1px solid #ddd;
+background:white;
+margin:15px;
+padding:15px;
+width:250px;
+border-radius:10px;
+text-align:center;">
+
+    {% if item.product.image %}
+        <img src="{{ item.product.image.url }}"
+             style="width:180px; height:180px; object-fit:cover;">
+    {% endif %}
+
+    <h3>{{ item.product.name }}</h3>
+
+    <p>Price: ₹{{ item.product.price }}</p>
+
+    <p>Quantity: {{ item.qty }}</p>
+
+    <p>Total: ₹{{ item.total }}</p>
+
+    <a href="/cart/remove/{{ item.product.id }}/">
+        <button style="
+        background:red;
+        color:white;
+        border:none;
+        padding:10px;
+        width:100%;">
+            Remove
+        </button>
+    </a>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<h2 style="text-align:center;">
+    Grand Total: ₹{{ total }}
+</h2>
+
+<div style="text-align:center; margin-bottom:30px;">
+    <a href="/place-order/">
+        <button style="
+        background:green;
+        color:white;
+        border:none;
+        padding:15px 30px;
+        font-size:16px;">
+            Place Order
+        </button>
+    </a>
+</div>
+
+{% else %}
+
+<p style="text-align:center;">Cart is empty</p>
+
+{% endif %}
+
+</body>
+</html>

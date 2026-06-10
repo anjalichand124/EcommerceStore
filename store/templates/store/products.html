@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Products</title>
+</head>
+
+<body style="font-family: Arial; background:#f4f4f4; margin:0;">
+
+<div style="background:#333; padding:10px; text-align:center;">
+    <a href="/" style="color:white; margin:10px;">Home</a>
+    <a href="/products/" style="color:white; margin:10px;">Products</a>
+    <a href="/cart/" style="color:white; margin:10px;">Cart</a>
+</div>
+
+<h1 style="text-align:center;">📦 Products Page</h1>
+
+<div style="display:flex; flex-wrap:wrap; justify-content:center;">
+
+{% for product in products %}
+
+    <div style="border:1px solid #ddd; margin:15px; padding:15px; width:250px; border-radius:10px; text-align:center;">
+
+        {% if product.image %}
+            <img src="{{ product.image.url }}" style="width:200px; height:200px; object-fit:cover;">
+        {% endif %}
+
+        <h3>{{ product.name }}</h3>
+
+        <p>₹{{ product.price }}</p>
+
+        <p>{{ product.description }}</p>
+
+        <a href="/product/{{ product.id }}/">
+            <button style="padding:10px; background:blue; color:white; border:none;">
+                View Details
+            </button>
+        </a>
+
+        <br><br>
+
+        <a href="/cart/add/{{ product.id }}/">
+            <button style="padding:10px; background:black; color:white; border:none; width:100%;">
+                Add to Cart
+            </button>
+        </a>
+
+    </div>
+
+{% endfor %}
+
+</div>
+
+</body>
+</html>
