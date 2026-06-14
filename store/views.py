@@ -12,9 +12,29 @@ def home(request):
 
 # PRODUCTS PAGE
 def products(request):
-    products = Product.objects.all()
-    return render(request, 'store/products.html', {'products': products})
 
+    query = request.GET.get('q')
+    category = request.GET.get('category')
+
+    products = Product.objects.all()
+
+    if query:
+        products = products.filter(
+            name__icontains=query
+        )
+
+    if category:
+        products = products.filter(
+            category__name=category
+        )
+
+    return render(
+        request,
+        'store/products.html',
+        {
+            'products': products
+        }
+    )
 
 # CART PAGE
 def cart(request):
@@ -66,6 +86,39 @@ def remove_from_cart(request, id):
 
     if id in cart:
         del cart[id]
+
+    request.session['cart'] = cart
+
+    return redirect('/cart/')
+
+
+# INCREASE QUANTITY
+def increase_quantity(request, id):
+    cart = request.session.get('cart', {})
+
+    id = str(id)
+
+    if id in cart:
+        cart[id] += 1
+
+    request.session['cart'] = cart
+
+    return redirect('/cart/')
+
+
+# DECREASE QUANTITY
+def decrease_quantity(request, id):
+    cart = request.session.get('cart', {})
+
+    id = str(id)
+
+    if id in cart:
+
+        if cart[id] > 1:
+            cart[id] -= 1
+
+        else:
+            del cart[id]
 
     request.session['cart'] = cart
 
