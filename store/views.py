@@ -63,6 +63,7 @@ def cart(request):
 
 
 # ADD TO CART
+# ADD TO CART
 def add_to_cart(request, id):
     cart = request.session.get('cart', {})
 
@@ -75,8 +76,7 @@ def add_to_cart(request, id):
 
     request.session['cart'] = cart
 
-    return redirect('/cart/')
-
+    return redirect(request.META.get('HTTP_REFERER', '/products/'))
 
 # REMOVE FROM CART
 def remove_from_cart(request, id):
@@ -191,10 +191,9 @@ def login_user(request):
 
         if user is not None:
             login(request, user)
-            return redirect('/products/')
+            return redirect('/')
 
     return render(request, 'store/login.html')
-
 
 # LOGOUT
 def logout_user(request):
